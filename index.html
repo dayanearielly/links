@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Amor de Mãe · Links</title>
 <meta name="description" content="Moda bebê e infantil do P ao 16. Envio para todo o Brasil.">
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RJWP7W8NCS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RJWP7W8NCS');
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
@@ -28,7 +36,7 @@
     box-shadow:0 0 40px rgba(89,69,96,.10);
   }
 
-  .logo{width:180px;max-width:70%;height:auto;margin:36px 0 18px;filter:drop-shadow(0 6px 14px rgba(89,69,96,.12))}
+  .logo{width:230px;max-width:70%;height:auto;margin:36px 0 18px;filter:drop-shadow(0 6px 14px rgba(89,69,96,.12))}
   .bio{font-size:15px;line-height:1.5;text-align:center;font-weight:700;max-width:320px;margin-bottom:30px}
 
   .links{width:100%;display:flex;flex-direction:column;gap:16px}
@@ -63,6 +71,7 @@
   }
 
   footer{margin-top:auto;padding-top:56px;font-size:12.5px;font-weight:700;opacity:.75;text-align:center}
+  footer small{display:block;margin-top:6px;font-size:10.5px;font-weight:600;opacity:.85}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -70,7 +79,7 @@
 <main class="page">
   <img class="logo" src="logo.png" alt="Amor de Mãe · Moda bebê e infantil">
 
-  <p class="bio">💕 Vista seu pequeno com Amor <br>👶 Moda bebê e infantil | P ao 16<br>🚚 Envio para todo o Brasil</p>
+  <p class="bio">💕 Vista seu pequeno com amor 👶<br>Moda bebê e infantil | P ao 16<br>🚚 Envio para todo o Brasil</p>
 
   <div class="links">
     <a id="b-whatsapp" class="btn" href="#">
@@ -99,7 +108,10 @@
     </a>
   </div>
 
-  <footer>Amor de Mãe · Itabirito/MG</footer>
+  <footer>
+    Amor de Mãe · Itabirito/MG
+    <small>Usamos cookies do Google Analytics para entender as visitas a esta página.</small>
+  </footer>
 </main>
 
 <script>
@@ -112,10 +124,18 @@ const CONFIG = {
 };
 /* ===================================================== */
 const wa = "https://wa.me/" + CONFIG.whatsappNumero + "?text=" + encodeURIComponent(CONFIG.whatsappMensagem);
-const mapa = { "b-whatsapp": wa, "b-site": CONFIG.site, "b-vip": CONFIG.grupoVip };
-for (const [id, url] of Object.entries(mapa)) {
+const mapa = {
+  "b-whatsapp": { url: wa,              nome: "whatsapp" },
+  "b-site":     { url: CONFIG.site,     nome: "site" },
+  "b-vip":      { url: CONFIG.grupoVip, nome: "grupo_vip" }
+};
+for (const [id, b] of Object.entries(mapa)) {
   const el = document.getElementById(id);
-  el.href = url; el.target = "_blank"; el.rel = "noopener";
+  el.href = b.url; el.target = "_blank"; el.rel = "noopener";
+  // registra no GA4 qual botão foi tocado
+  el.addEventListener("click", () => {
+    if (typeof gtag === "function") gtag("event", "clique_botao", { botao: b.nome, transport_type: "beacon" });
+  });
 }
 </script>
 </body>
